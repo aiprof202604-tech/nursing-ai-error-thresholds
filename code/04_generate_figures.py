@@ -247,9 +247,9 @@ for E, lbl, color, ls, lw in exp_levels:
     err = rel * (1 - A_grid)
     axA.plot(A_grid, err, color=color, ls=ls, lw=lw, label=lbl)
 
-# observed LLM accuracy band (62.1%-80.5%, 95% CI around 72%)
-axA.axvspan(0.621, 0.805, color='#888888', alpha=0.18, zorder=0)
-axA.axvline(0.72, color='#444444', lw=0.8, ls=':', zorder=0)
+# literature reference range for current general-purpose LLM accuracy on
+# complex clinical tasks (~0.5-0.7; Hager et al. 2024 Nat Med; Eriksen et al. 2024 NEJM AI)
+axA.axvspan(0.5, 0.7, color='#5B8DB8', alpha=0.15, zorder=0)
 
 # error reference lines
 for y, label, color in [(0.30, '30% error', '#C0392B'),
@@ -258,13 +258,12 @@ for y, label, color in [(0.30, '30% error', '#C0392B'),
     axA.axhline(y, color=color, ls=':', lw=0.9, alpha=0.7)
     axA.text(0.012, y + 0.008, label, fontsize=8, color=color, alpha=0.95)
 
-# Observed-accuracy annotation: place to the right of the band, mid-height,
-# with a leader line pointing into the band
-axA.annotate('Observed LLM\naccuracy (72%)',
-             xy=(0.72, 0.075), xytext=(0.84, 0.16),
-             fontsize=8, color='#333333', ha='center', va='center',
+# Reference-range annotation: placed below-right with a leader line into the band
+axA.annotate('Current general-purpose\nLLM range (complex tasks)',
+             xy=(0.60, 0.17), xytext=(0.83, 0.055),
+             fontsize=8, color='#2C5775', ha='center', va='center',
              style='italic',
-             arrowprops=dict(arrowstyle='-', color='#666666', lw=0.7))
+             arrowprops=dict(arrowstyle='-', color='#5B8DB8', lw=0.8))
 
 axA.set_xlim(0, 1)
 axA.set_ylim(0, 0.55)
@@ -299,9 +298,9 @@ for lbl, E, C, color, ls, lw in profiles:
     axB.plot(err_grid * 100, a_pt, color=color, ls=ls, lw=lw, label=lbl)
 
 # reference lines for frontier and observed accuracy
-for y, label in [(0.95, 'Frontier (95%)'),
-                 (0.85, 'Frontier (85%)'),
-                 (0.72, 'Observed (72%)')]:
+for y, label in [(0.95, 'Demanding (0.95)'),
+                 (0.85, 'Near-term (0.85)'),
+                 (0.72, 'Reference (0.72)')]:
     axB.axhline(y, color='#777777', ls=':', lw=0.8, alpha=0.7)
     axB.text(29.7, y + 0.006, label, fontsize=8, color='#555555',
              ha='right', va='bottom', style='italic')
@@ -315,9 +314,7 @@ axB.set_title('(B) Minimum AI accuracy with bootstrap 95% CI bands',
 axB.legend(loc='lower left', framealpha=0.95)
 axB.grid(True, alpha=0.3)
 
-fig2.suptitle('Figure 2. Predicted error rates and accuracy thresholds '
-              'for AI decision support in nursing',
-              fontsize=12, fontweight='bold', y=1.02)
+# Figure number/caption intentionally NOT embedded in the image (per JMIR figure rules)
 fig2.tight_layout()
 fig2.savefig(os.path.join(FIG_DIR, 'figure2_predicted_and_threshold.pdf'))
 plt.close(fig2)
