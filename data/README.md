@@ -27,10 +27,4 @@ Experiment 3 Phase 2, were extracted from the published Figures 3a and 5a by
 visual inspection. The procedure is documented in the manuscript Methods
 section. The extracted values are hard-coded in `02_model_calibration.py`.
 
-## 100 clinical case-based questions and scoring rubrics
 
-The 100 clinical case scenarios used for the empirical LLM evaluation
-reported in the manuscript are not included in this repository for reasons
-of case-content licensing and to prevent contamination of future model
-evaluations. They are available from the corresponding author upon
-reasonable request.
