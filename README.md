@@ -28,7 +28,7 @@ Error    = Reliance × (1 − A) + ε₂
 The `A`-related coefficients (`β₀`, `β_A`) are calibrated by weighted least
 squares against 9 empirical data points drawn from three independent
 randomized experiments on AI-assisted decision-making (Lu and Yin, 2021;
-Yin et al., 2019; total *N* ≈ 1,776). The remaining coefficients are fixed
+Yin et al., 2019; total *N* = 3,502). The remaining coefficients are fixed
 from the prior literature. Calibration uncertainty is quantified by
 study-level bootstrap (2,000 iterations).
 
@@ -36,7 +36,7 @@ Key calibrated values reported in the manuscript:
 
 | Quantity | Value |
 | --- | --- |
-| β₀ (intercept) | 0.471 |
+| β₀ (intercept) | 0.4708 |
 | β_A (slope on AI accuracy) | 0.201 |
 | Bootstrap 95% CI for β_A | [0.023, 0.234] |
 | Sign stability P(β_A > 0) | 1.000 |
@@ -135,15 +135,18 @@ specific floating-point ordering.
 
 ---
 
-## Empirical AI evaluation data
+## LLM accuracy operating range
 
-The manuscript also reports an empirical evaluation of a contemporary
-general-purpose LLM (Gemini 1.5 Pro) on 100 clinical case-based questions,
-yielding 72.0% accuracy (95% CI: 62.1%–80.5%). The 100 case scenarios and
-their scoring rubrics are not included in this repository for reasons of
-case-content licensing and to prevent contamination of future model
-evaluations. They are available from the corresponding author upon
-reasonable request.
+To contextualize the simulation's operating range, the manuscript characterizes
+the accuracy of contemporary general-purpose large language models on complex
+clinical tasks using published, peer-reviewed benchmarks rather than an in-house
+evaluation. The reference range of approximately 0.5–0.7 used in the figures is
+drawn from Hager et al. (2024, *Nature Medicine*) and Eriksen et al. (2024,
+*NEJM AI*); for example, GPT-4 achieved 57% correct diagnoses on complex
+clinicopathological cases. No proprietary case set is distributed with this
+repository; the only inputs to the calibration are the published human–AI
+reliance data points listed below.
+
 
 ---
 
