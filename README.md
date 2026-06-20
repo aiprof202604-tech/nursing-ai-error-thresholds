@@ -147,7 +147,6 @@ clinicopathological cases. No proprietary case set is distributed with this
 repository; the only inputs to the calibration are the published human–AI
 reliance data points listed below.
 
-
 ---
 
 ## Software environment used for the published results
@@ -206,7 +205,7 @@ licensing terms.
 
 ## Contact
 
-Questions, bug reports, and requests for the 100 clinical case scenarios
+Questions and bug reports
 should be addressed to:
 
 **Hiroyuki Tajima**
