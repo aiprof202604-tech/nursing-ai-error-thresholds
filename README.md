@@ -8,8 +8,10 @@ Reproducibility package for the simulation study:
 
 This repository contains all code, intermediate data, and figure-generation
 scripts required to reproduce every numerical result and figure reported in
-the manuscript, including the bootstrap confidence intervals and the
-A_threshold analysis.
+the manuscript, including the bootstrap confidence intervals, the
+A_threshold analysis, and — added in the revised version — the joint
+human-AI decision model and the extended (wide, global, and
+alternative-structure) sensitivity analyses.
 
 ---
 
@@ -51,13 +53,16 @@ nursing-ai-error-thresholds/
 ├── code/
 │   ├── 01_luyin_analysis.py            Lu & Yin 2021 raw-data reanalysis
 │   ├── 02_model_calibration.py         Weighted-least-squares calibration
-│   ├── 03_simulation_and_threshold.py  27-cell factorial + A_threshold + sensitivity
-│   └── 04_generate_figures.py          Bootstrap + all manuscript figures
+│   ├── 03_simulation_and_threshold.py  27-cell factorial + A_threshold + ±20% sensitivity
+│   ├── 04_generate_figures.py          Bootstrap + Figures 1, 2, S1
+│   ├── 05_extended_and_sensitivity.py  Joint model + wide/global/alt-structure sensitivity
+│   └── 06_generate_robustness_figure.py  Supplementary Figure S2 (robustness)
 ├── figures/
 │   ├── bootstrap_results.npz           2,000 bootstrap iterations of (β₀, β_A)
 │   ├── figure1_conceptual.pdf          Figure 1 (vector)
 │   ├── figure2_predicted_and_threshold.pdf  Figure 2, Panels A and B (vector)
-│   └── figure_S1_calibration.pdf       Supplementary Figure S1 (vector)
+│   ├── figure_S1_calibration.pdf       Supplementary Figure S1 (vector)
+│   └── figure_S2_robustness.pdf        Supplementary Figure S2 (vector)
 ├── tables/
 │   ├── table2_27cell_factorial.csv     Predicted reliance and error per cell
 │   └── table3_A_threshold.csv          Minimum AI accuracy by user × task profile
@@ -161,6 +166,43 @@ reliance data points listed below.
 
 Newer versions are likely to work without modification; `requirements.txt`
 specifies minimum versions rather than exact pins.
+
+---
+
+## Revised-version analyses (joint model and extended sensitivity)
+
+The revised manuscript adds two analyses in response to peer review. Both are
+purely additive: the calibrated model and all previously reported values are
+unchanged, and the primary error model is recovered exactly as a limiting case
+of the joint model.
+
+Run them with:
+
+```bash
+python code/05_extended_and_sensitivity.py --force   # writes tables/r2_*.csv
+python code/06_generate_robustness_figure.py         # writes figures/figure_S2_robustness.pdf
+```
+
+**Joint human-AI decision model.** `Error_joint = R·(1−A) + (1−R)·(1−p_c)`,
+where `p_c` is the clinician's independent accuracy. The primary model is the
+special case `p_c → 1` (verified to reproduce `A_threshold` = 0.894 and 0.779
+for the novice × high-complexity cell). An asymmetric variant scales the
+correction of a wrong recommendation by a factor `ρ ∈ [0, 1]`. Outputs:
+`tables/r2_joint_model_threshold.csv`, `tables/r2_asymmetric_threshold.csv`.
+
+**Extended sensitivity.** Wide one-at-a-time perturbation (−100% … +100% and
+sign reversal), a global Monte-Carlo sweep over all four literature-fixed
+coefficients (50,000 draws per prior, theory-signed and sign-agnostic), and two
+bounded alternative reliance structures (logistic and concave-saturating).
+Outputs: `tables/r2_wide_oat_sensitivity.csv`,
+`tables/r2_global_sensitivity_summary.csv`, `tables/r2_altstructure_threshold.csv`.
+
+`05_extended_and_sensitivity.py` is resumable (each stage caches its CSV; pass
+`--force` to recompute) and vectorised over Monte-Carlo draws.
+
+Note: Figure 1 and Supplementary Figure S1 were regenerated in the revised
+version to show the calibration sample as `N = 3,502` (the participant count),
+correcting an earlier figure-only annotation; the underlying data are unchanged.
 
 ---
 
